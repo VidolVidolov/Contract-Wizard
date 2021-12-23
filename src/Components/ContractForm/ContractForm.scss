@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.contract-form {
+    @apply border-2 rounded-md border-blue-500 p-4 mr-3; 
+}

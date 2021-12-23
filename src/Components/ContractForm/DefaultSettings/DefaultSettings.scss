@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.default-settings-wrapper {
+    @apply border-b-2 border-gray-400 mb-4 pb-3;
+}
+.def-settings-input {
+    @apply border-2 rounded-sm border-black w-full p-2 my-2;
+}

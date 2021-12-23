@@ -1,0 +1,12 @@
+@import "~tailwindcss/base";
+@import "~tailwindcss/components";
+@import "~tailwindcss/utilities";
+
+.contract-output-wrapper {
+    @apply bg-slate-800 w-full rounded-lg text-white p-6;
+}
+
+.license {
+    @apply italic text-gray-500;
+}
+

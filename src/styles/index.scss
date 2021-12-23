@@ -1,0 +1,27 @@
+@import "~tailwindcss/base";
+@import "~tailwindcss/components";
+@import "~tailwindcss/utilities";
+
+body {
+    @apply w-full h-full;
+}
+
+.panel-wrapper {
+    @apply w-3/4 justify-between m-auto py-52;
+}
+
+.panel-inner-wrapper {
+    @apply flex;
+}
+
+.custom-app {
+    @apply m-auto;
+}
+
+.app-name{
+    @apply text-5xl pb-4
+}
+
+.contract-from-section-heading {
+    @apply underline text-gray-400 font-medium mb-5;
+}
