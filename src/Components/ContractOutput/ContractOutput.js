@@ -29,6 +29,13 @@ const contractMethods = {
     {
         super._beforeTokenTransfer(from, to, tokenId);
     }`,
+    autoIncrementIdsFirstPart: () => `using Counters for Counters.Counter;\n
+  Counters.Counter private _tokenIdCounter;`,
+    autoIncrementIdsSecondPart: () => `function safeMint(address to) public onlyOwner {
+        uint256 tokenId = _tokenIdCounter.current();
+        _tokenIdCounter.increment();
+        _safeMint(to, tokenId);
+    }`
 
 }
 
@@ -36,7 +43,7 @@ const contractMethods = {
 const ContractOutput = () => {
 
     const { state } = useContext(Context);
-    const { name, symbol, baseUri, mintable, withdraw, pausable } = state || {};
+    const { name, symbol, baseUri, mintable, withdraw, pausable, autoIncrementId } = state || {};
 
     return <code className="contract-output-wrapper">
         <p className="license">// SPDX-License-Identifier: MIT</p>
@@ -44,13 +51,21 @@ const ContractOutput = () => {
         <br></br>
         <p>import "@openzeppelin/contracts/token/ERC721/ERC721.sol";</p>
         {(pausable) && <p>import "@openzeppelin/contracts/security/Pausable.sol";</p>}
-        {(mintable || withdraw || pausable) && <p>import "@openzeppelin/contracts/access/Ownable.sol";</p>}
+        {(mintable || withdraw || pausable || autoIncrementId) && <p>import "@openzeppelin/contracts/access/Ownable.sol";</p>}
+        {autoIncrementId && <p>import "@openzeppelin/contracts/utils/Counters.sol";</p>}
 
 
         <br></br>
         <div>
             {`contract ${name || 'MyToken'} is ERC721${pausable ? ', Pausable' : ''}${(mintable || withdraw || pausable) ? ', Ownable' : ''} {`}
             <br></br>
+
+            {autoIncrementId
+                && <>
+                    <pre>&emsp; {contractMethods.autoIncrementIdsFirstPart()}</pre>
+                    <br></br>
+                </>
+            }
 
             {(name && symbol)
                 && <>
@@ -65,11 +80,17 @@ const ContractOutput = () => {
                     <br></br>
                 </>}
 
-            {mintable
-                && <>
-                    <pre>&emsp; {contractMethods.mint()}</pre>
+            {
+                (autoIncrementId) ? <>
+                    <pre>&emsp; {contractMethods.autoIncrementIdsSecondPart()}</pre>
                     <br></br>
-                </>}
+                </> : mintable
+                    && <>
+                        <pre>&emsp; {contractMethods.mint()}</pre>
+                        <br></br>
+                    </>
+            }
+
 
             {withdraw
                 && <>

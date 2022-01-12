@@ -5,3 +5,14 @@
 .checkbox-input {
     @apply mr-2;
 }
+
+.check-input {
+    @apply ml-3 mr-2 relative
+}
+
+.check-input::before {
+    content: "↳";
+    top: -8px;
+    right: 16px;
+    position: absolute;
+}
