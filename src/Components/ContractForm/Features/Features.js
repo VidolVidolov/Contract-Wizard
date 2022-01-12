@@ -15,6 +15,10 @@ const Features = () => {
             <input type="checkbox" name="withdraw" className="checkbox-input" id="withdraw" onChange={(e) => handleInputsChange(e)} />
             <label htmlFor="withdraw">Withdraw</label>
         </div>
+        <div className="checkbox-wrapper">
+            <input type="checkbox" name="pausable" className="checkbox-input" id="pausable" onChange={(e) => handleInputsChange(e)} />
+            <label htmlFor="pausable">Pausable</label>
+        </div>
     </div>
 }
 
