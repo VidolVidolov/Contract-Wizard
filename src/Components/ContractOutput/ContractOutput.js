@@ -1,110 +1,79 @@
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 import { Context } from '../../App';
-
+import contractMethods from '../../Constants/methods';
+import CopyToClipboardButton from '../CopyToClipboardButton/CopyToClipboardButton';
 import './ContractOutput.scss'
-
-const contractMethods = {
-    contract: (name, symbol) => `constructor() ERC721("${name}", "${symbol}") { }`,
-    baseUri: (string) => `function _baseURI() internal pure override returns (string memory) {
-        return "${string}";
-    }`,
-    mint: () => `function safeMint(address to, uint256 tokenId) public onlyOwner {
-        _safeMint(to, tokenId);
-    }`,
-    withdraw: () => `function withdraw() public payable onlyOwner {
-        require(payable(msg.sender).send(address(this).balance));
-    }`,
-    pausable: () => `function pause() public onlyOwner {
-        _pause();
-    }
-
-    function unpause() public onlyOwner {
-        _unpause();
-    }
-
-    function _beforeTokenTransfer(address from, address to, uint256 tokenId)
-        internal
-        whenNotPaused
-        override
-    {
-        super._beforeTokenTransfer(from, to, tokenId);
-    }`,
-    autoIncrementIdsFirstPart: () => `using Counters for Counters.Counter;\n
-  Counters.Counter private _tokenIdCounter;`,
-    autoIncrementIdsSecondPart: () => `function safeMint(address to) public onlyOwner {
-        uint256 tokenId = _tokenIdCounter.current();
-        _tokenIdCounter.increment();
-        _safeMint(to, tokenId);
-    }`
-
-}
-
 
 const ContractOutput = () => {
 
     const { state } = useContext(Context);
+    const textToCopy = useRef();
     const { name, symbol, baseUri, mintable, withdraw, pausable, autoIncrementId } = state || {};
-    
+
+    const handleCopyToCLipBoard = () => {
+        navigator.clipboard.writeText(textToCopy.current.textContent);
+    }
     return <code className="contract-output-wrapper">
-        <p className="license">// SPDX-License-Identifier: MIT</p>
-        <p>pragma solidity ^0.8.2;</p>
-        <br></br>
-        <p>import "@openzeppelin/contracts/token/ERC721/ERC721.sol";</p>
-        {(pausable) && <p>import "@openzeppelin/contracts/security/Pausable.sol";</p>}
-        {(mintable || withdraw || pausable || autoIncrementId) && <p>import "@openzeppelin/contracts/access/Ownable.sol";</p>}
-        {autoIncrementId && <p>import "@openzeppelin/contracts/utils/Counters.sol";</p>}
-
-
-        <br></br>
-        <div>
-            {`contract ${name || 'MyToken'} is ERC721${pausable ? ', Pausable' : ''}${(mintable || withdraw || pausable) ? ', Ownable' : ''} {`}
+        <CopyToClipboardButton handleCopyToCLipBoard={handleCopyToCLipBoard} />
+        <div ref={textToCopy}>
+            <p className="license">// SPDX-License-Identifier: MIT</p>
+            <p>pragma solidity ^0.8.2;</p>
             <br></br>
+            <p>import "@openzeppelin/contracts/token/ERC721/ERC721.sol";</p>
+            {(pausable) && <p>import "@openzeppelin/contracts/security/Pausable.sol";</p>}
+            {(mintable || withdraw || pausable || autoIncrementId) && <p>import "@openzeppelin/contracts/access/Ownable.sol";</p>}
+            {autoIncrementId && <p>import "@openzeppelin/contracts/utils/Counters.sol";</p>}
 
-            {autoIncrementId
-                && <>
-                    <pre>&emsp; {contractMethods.autoIncrementIdsFirstPart()}</pre>
-                    <br></br>
-                </>
-            }
+            <br></br>
+            <div>
+                {`contract ${name || 'MyToken'} is ERC721${pausable ? ', Pausable' : ''}${(mintable || withdraw || pausable) ? ', Ownable' : ''} {`}
+                <br></br>
 
-            {(name && symbol)
-                && <>
-                    <pre>&emsp; {contractMethods.contract(name, symbol)}</pre>
-                    <br></br>
-                </>
-            }
-
-            {baseUri
-                && <>
-                    <pre>&emsp; {contractMethods.baseUri(baseUri)}</pre>
-                    <br></br>
-                </>}
-
-            {
-                (autoIncrementId) ? <>
-                    <pre>&emsp; {contractMethods.autoIncrementIdsSecondPart()}</pre>
-                    <br></br>
-                </> : mintable
+                {autoIncrementId
                     && <>
-                        <pre>&emsp; {contractMethods.mint()}</pre>
+                        <pre>&emsp; {contractMethods.autoIncrementIdsFirstPart()}</pre>
                         <br></br>
                     </>
-            }
+                }
 
+                {(name && symbol)
+                    && <>
+                        <pre>&emsp; {contractMethods.contract(name, symbol)}</pre>
+                        <br></br>
+                    </>
+                }
 
-            {withdraw
-                && <>
-                    <pre>&emsp; {contractMethods.withdraw()}</pre>
-                    <br></br>
-                </>}
+                {baseUri
+                    && <>
+                        <pre>&emsp; {contractMethods.baseUri(baseUri)}</pre>
+                        <br></br>
+                    </>}
 
-            {pausable
-                && <>
-                    <pre>&emsp; {contractMethods.pausable()}</pre>
-                    <br></br>
-                </>}
-            <br></br>
-            {'}'}
+                {
+                    (autoIncrementId) ? <>
+                        <pre>&emsp; {contractMethods.autoIncrementIdsSecondPart()}</pre>
+                        <br></br>
+                    </> : mintable
+                        && <>
+                            <pre>&emsp; {contractMethods.mint()}</pre>
+                            <br></br>
+                        </>
+                }
+
+                {withdraw
+                    && <>
+                        <pre>&emsp; {contractMethods.withdraw()}</pre>
+                        <br></br>
+                    </>}
+
+                {pausable
+                    && <>
+                        <pre>&emsp; {contractMethods.pausable()}</pre>
+                        <br></br>
+                    </>}
+                <br></br>
+                {'}'}
+            </div>
         </div>
     </code>
 }

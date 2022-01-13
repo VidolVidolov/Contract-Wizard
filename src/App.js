@@ -18,7 +18,7 @@ function App() {
       setState({ ...state, [e.target.name]: e.target.value });
     }
   }
-  console.log(state);
+ 
   return (
     <div className="App custom-app">
       <Context.Provider value={{ handleInputsChange, state }}>

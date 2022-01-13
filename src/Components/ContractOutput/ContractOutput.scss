@@ -3,7 +3,7 @@
 @import "~tailwindcss/utilities";
 
 .contract-output-wrapper {
-    @apply bg-slate-800 w-4/5 rounded-lg text-white p-6;
+    @apply bg-slate-800 w-4/5 rounded-lg text-white p-6 relative;
 }
 
 .license {

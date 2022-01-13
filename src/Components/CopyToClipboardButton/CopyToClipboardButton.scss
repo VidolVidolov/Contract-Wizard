@@ -1,0 +1,11 @@
+@import "~tailwindcss/base";
+@import "~tailwindcss/components";
+@import "~tailwindcss/utilities";
+
+.copy-to-clipboard-button-wrapper {
+    @apply bg-white flex rounded w-fit p-2 items-center absolute top-0 right-1 mt-1 cursor-pointer;
+
+    span {
+        @apply text-black;
+    }
+}
