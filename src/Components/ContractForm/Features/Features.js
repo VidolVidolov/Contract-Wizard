@@ -6,7 +6,7 @@ const Features = () => {
     const { handleInputsChange } = useContext(Context);
     const ref = useRef();
     const bufferFunction = (e) => {
-        if (e.target.checked) {
+        if (!ref.current.checked) {
             ref.current.click();
         }
         handleInputsChange(e);

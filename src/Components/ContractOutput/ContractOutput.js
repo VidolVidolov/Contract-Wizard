@@ -44,7 +44,7 @@ const ContractOutput = () => {
 
     const { state } = useContext(Context);
     const { name, symbol, baseUri, mintable, withdraw, pausable, autoIncrementId } = state || {};
-
+    
     return <code className="contract-output-wrapper">
         <p className="license">// SPDX-License-Identifier: MIT</p>
         <p>pragma solidity ^0.8.2;</p>
