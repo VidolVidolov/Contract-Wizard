@@ -19,14 +19,22 @@ function App() {
     }
   }
 
+  const handleCompileContract = () => {
+    const text = {
+      text: textToCopy.current.innerText,
+    }
+    // const textForContract = new Blob(JSON.stringify(text, null, 2), { type: 'application/json' });
+    // console.log(textForContract);
+  }
   return (
     <div className="App custom-app">
       <Context.Provider value={{ handleInputsChange, state }}>
         <div className="panel-wrapper">
           <h1 className="app-name">Create Contract for ERC721 token</h1>
+          <button className='compile-button' onClick={handleCompileContract}>Compile Contract</button>
           <div className="panel-inner-wrapper">
             <ContractForm />
-            <ContractOutput textToCopy={textToCopy}/>
+            <ContractOutput textToCopy={textToCopy} />
           </div>
         </div>
       </Context.Provider>

@@ -18,10 +18,14 @@ body {
     @apply m-auto;
 }
 
-.app-name{
-    @apply text-5xl pb-4
+.app-name {
+    @apply text-5xl pb-4;
 }
 
 .contract-from-section-heading {
     @apply underline text-gray-400 font-medium mb-5;
+}
+
+.compile-button {
+    @apply bg-blue-300 hover:bg-blue-600 px-2 py-1 rounded-lg mb-2;
 }
