@@ -1,14 +1,14 @@
 import ContractForm from './Components/ContractForm';
 import ContractOutput from './Components/ContractOutput';
+import React, { useState, useRef } from 'react';
 import './styles/index.scss';
-import React, { useState } from 'react';
 
 export const Context = React.createContext();
 
 function App() {
 
   const [state, setState] = useState(null);
-
+  const textToCopy = useRef();
   const handleInputsChange = (e) => {
     if (e.target.type === 'checkbox') {
       e.target.id === 'autoIncrementId'
@@ -18,7 +18,7 @@ function App() {
       setState({ ...state, [e.target.name]: e.target.value });
     }
   }
- 
+
   return (
     <div className="App custom-app">
       <Context.Provider value={{ handleInputsChange, state }}>
@@ -26,7 +26,7 @@ function App() {
           <h1 className="app-name">Create Contract for ERC721 token</h1>
           <div className="panel-inner-wrapper">
             <ContractForm />
-            <ContractOutput />
+            <ContractOutput textToCopy={textToCopy}/>
           </div>
         </div>
       </Context.Provider>

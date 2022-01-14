@@ -1,28 +1,28 @@
-import { useContext, useRef } from 'react';
+import { useContext } from 'react';
 import { Context } from '../../App';
 import contractMethods from '../../Constants/methods';
 import CopyToClipboardButton from '../CopyToClipboardButton/CopyToClipboardButton';
 import './ContractOutput.scss'
 
-const ContractOutput = () => {
+const ContractOutput = ({ textToCopy }) => {
 
     const { state } = useContext(Context);
-    const textToCopy = useRef();
+
     const { name, symbol, baseUri, mintable, withdraw, pausable, autoIncrementId } = state || {};
 
     const handleCopyToCLipBoard = () => {
-        navigator.clipboard.writeText(textToCopy.current.textContent);
+        navigator.clipboard.writeText(textToCopy.current.innerText);
     }
     return <code className="contract-output-wrapper">
         <CopyToClipboardButton handleCopyToCLipBoard={handleCopyToCLipBoard} />
         <div ref={textToCopy}>
-            <p className="license">// SPDX-License-Identifier: MIT</p>
-            <p>pragma solidity ^0.8.2;</p>
+            <pre className="license">// SPDX-License-Identifier: MIT</pre>
+            <pre>pragma solidity ^0.8.2;</pre>
             <br></br>
-            <p>import "@openzeppelin/contracts/token/ERC721/ERC721.sol";</p>
-            {(pausable) && <p>import "@openzeppelin/contracts/security/Pausable.sol";</p>}
-            {(mintable || withdraw || pausable || autoIncrementId) && <p>import "@openzeppelin/contracts/access/Ownable.sol";</p>}
-            {autoIncrementId && <p>import "@openzeppelin/contracts/utils/Counters.sol";</p>}
+            <pre>import "@openzeppelin/contracts/token/ERC721/ERC721.sol";</pre>
+            {(pausable) && <pre>import "@openzeppelin/contracts/security/Pausable.sol";</pre>}
+            {(mintable || withdraw || pausable || autoIncrementId) && <pre>import "@openzeppelin/contracts/access/Ownable.sol";</pre>}
+            {autoIncrementId && <pre>import "@openzeppelin/contracts/utils/Counters.sol";</pre>}
 
             <br></br>
             <div>
